@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<title></title>
+<style>
+body{margin:0;padding:0;}
+html, body{height:100%;}
+#console{position:absolute;left:0;top:0;right:0;bottom:0;height:auto;margin:50px;font-family:"Courier New";color:#000;line-height:1.25em;white-space:pre-wrap;word-wrap:break-word;}
+</style>
+</head>
+<body>
+<div id="console"></div>
+<script type='text/javascript'>
+var Module = {
+    TOTAL_MEMORY: 32777216,
+    preRun: [],
+    postRun: [],
+    print: function(text){
+        var text = Array.prototype.slice.call(arguments).join(' ');
+        var console = document.getElementById('console');
+        console.innerHTML = console.innerHTML + "\n" + text;
+        window.scrollTo(0, document.body.scrollHeight);
+    },
+    printErr: function(text){ this.print(text) },
+    setStatus: function(text){ this.print(text) },
+    totalDependencies: 0,
+    monitorRunDependencies: function(text){ this.print(text) },
+    logReadFiles: function(text){ this.print(text) },
+};
+Module.setStatus('Downloading...');
+window.onerror = function(event) {
+    // TODO: do not warn on ok events like simulating an infinite loop or exitStatus
+    Module.setStatus('Exception thrown, see JavaScript console');
+    Module.setStatus = function(text) {
+        if (text) Module.printErr('[post-exception status] ' + text);
+    };
+};
+</script>
+<script async type="text/javascript" src="tests.js"></script>
+</body>
+</html>
