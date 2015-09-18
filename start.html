@@ -4,60 +4,10 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 <title></title>
-<style>
-.button {
-box-sizing: border-box;
-width: 128px;
-height: 128px;
-cursor: pointer;
-position: absolute;
-top: 100px;
-left: 50%;
-margin-left:-64px;
-border: 1px solid #B21522;
-border-radius: 100px;
-font: normal 20px/1.1 Helvetica, sans-serif;
-color: rgba(255,255,255,0.9);
-text-align: center;
-text-overflow: clip;
-white-space: pre;
-background: radial-gradient(closest-side, rgba(255,255,255,0.2) 0, rgba(0,0,0,0) 100%), #C91826;
-background-repeat: no-repeat;
-background-position: 0 100%;
-background-origin: padding-box;
-background-clip: border-box;
-background-size: 158px 142px;
-box-shadow: 1px 16px 10px 5px rgba(0,0,0,0.2) , 0 14px 0 0 #000000 , 4px 8px 15px 4px rgba(0,0,0,0.4) , 5px 1px 5px 0 rgba(255,255,255,0.2) inset, 5px -4px 5px 0 rgba(255,255,255,0.2) inset, -2px 3px 6px 0 rgba(0,0,0,0.2) inset;
-text-shadow: 0 -1px 0 rgba(40,40,40,0.6) ;
-transition: all 40ms cubic-bezier(0.6, -0.28, 0.735, 0.04);
-transform: rotateX(35deg)  translateY(15px) translateZ(40px) ;
-}
-.button:hover {
-background: radial-gradient(closest-side, rgba(255,255,255,0.28) 0, rgba(0,0,0,0) 100%), #a80008;
-background-repeat: no-repeat;
-background-position: 0 100%;
-background-origin: padding-box;
-background-clip: border-box;
-background-size: 158px 142px;
-box-shadow: 1px 16px 10px 5px rgba(0,0,0,0.2) , 0 14px 0 0 #000000 , 4px 8px 15px 4px rgba(0,0,0,0.4) , 5px 1px 5px 0 rgba(255,255,255,0.2) inset, 5px -4px 5px 0 rgba(255,255,255,0.2) inset, -2px 2px 6px 0 rgba(0,0,0,0.2) inset;
-transition: all 0 cubic-bezier(0.42, 0, 0.58, 1);
-}
-.button:active {
-position: relative;
-cursor: default;
-top: 106px;
-background: radial-gradient(closest-side, rgba(255,255,255,0.2) 0, rgba(0,0,0,0) 100%), #c60009;
-background-repeat: no-repeat;
-background-position: 0 100%;
-background-origin: padding-box;
-background-clip: border-box;
-background-size: 158px 142px;
-box-shadow: 1px 5px 8px 4px rgba(0,0,0,0.4) , 0 7px 0 0 #000000 , 1px 2px 1px 1px rgba(0,0,0,0.6) , 3px 1px 5px 0 rgba(255,255,255,0.2) inset, 3px -6px 5px 0 rgba(255,255,255,0.2) inset, -1px 1px 4px 0 rgba(0,0,0,0.2) inset;
-transition: all 40ms cubic-bezier(0.42, 0, 0.58, 1);
-}
-</style>
 </head>
 <body>
-<input type="button" class="button" value="Run tests" onClick="javascript:document.location.replace('tests.html')" />
+<div style="width:100%;text-align:center;font-size:1.5em;">
+    <a href="tests.html">Run tests</a> or <a href="validator.html">start example app</a>.
+</div>
 </body>
 </html>
