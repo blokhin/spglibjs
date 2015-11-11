@@ -96,6 +96,8 @@ window.wrap_spg_handle_result = function(res_n, res_i){
     output('Space group computed: ' + res_i + ' (' + res_n + ')');
 }
 
+MatinfIO = MatinfIO(math, {warning: warning, error: error});
+
 var Module = {
     TOTAL_MEMORY: 32777216,
     onRuntimeInitialized: function(){

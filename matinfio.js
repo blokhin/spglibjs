@@ -1,10 +1,8 @@
 /**
  * IO for materials informatics
  * Author: Evgeny Blokhin
- * Web: https://tilde.pro
- * Email: eb@tilde.pro
  * License: MIT
- * Version: 0.0.0.1
+ * Version: 0.0.2
  */
 // Polyfills
 String.prototype.startswith = function(prefix){
@@ -21,18 +19,9 @@ String.prototype.trim = function(){
     return this.replace(/^\s+|\s+$/g, '');
 }
 
-// Server env
-if (typeof module !== 'undefined' && module.exports) {
-    var math = require('./transform_ops3.js');
-    math = math.math || math;
-    global.warning = console.error;
-    global.error = console.error;
-} else {
-    window.warning = alert;
-    window.error = alert;
-}
+var MatinfIO = function(Mimpl, root){
 
-var MatinfIO = (function(){
+var version = '0.0.2';
 
 var chemical_elements = {
 JmolColors: { "D": "#FFFFC0", "H": "#FFFFFF", "He": "#D9FFFF", "Li": "#CC80FF", "Be": "#C2FF00", "B": "#FFB5B5", "C": "#909090", "N": "#3050F8", "O": "#FF0D0D", "F": "#90E050", "Ne": "#B3E3F5", "Na": "#AB5CF2", "Mg": "#8AFF00", "Al": "#BFA6A6", "Si": "#F0C8A0", "P": "#FF8000", "S": "#FFFF30", "Cl": "#1FF01F", "Ar": "#80D1E3", "K": "#8F40D4", "Ca": "#3DFF00", "Sc": "#E6E6E6", "Ti": "#BFC2C7", "V": "#A6A6AB", "Cr": "#8A99C7", "Mn": "#9C7AC7", "Fe": "#E06633", "Co": "#F090A0", "Ni": "#50D050", "Cu": "#C88033", "Zn": "#7D80B0", "Ga": "#C28F8F", "Ge": "#668F8F", "As": "#BD80E3", "Se": "#FFA100", "Br": "#A62929", "Kr": "#5CB8D1", "Rb": "#702EB0", "Sr": "#00FF00", "Y": "#94FFFF", "Zr": "#94E0E0", "Nb": "#73C2C9", "Mo": "#54B5B5", "Tc": "#3B9E9E", "Ru": "#248F8F", "Rh": "#0A7D8C", "Pd": "#006985", "Ag": "#C0C0C0", "Cd": "#FFD98F", "In": "#A67573", "Sn": "#668080", "Sb": "#9E63B5", "Te": "#D47A00", "I": "#940094", "Xe": "#429EB0", "Cs": "#57178F", "Ba": "#00C900", "La": "#70D4FF", "Ce": "#FFFFC7", "Pr": "#D9FFC7", "Nd": "#C7FFC7", "Pm": "#A3FFC7", "Sm": "#8FFFC7", "Eu": "#61FFC7", "Gd": "#45FFC7", "Tb": "#30FFC7", "Dy": "#1FFFC7", "Ho": "#00FF9C", "Er": "#00E675", "Tm": "#00D452", "Yb": "#00BF38", "Lu": "#00AB24", "Hf": "#4DC2FF", "Ta": "#4DA6FF", "W": "#2194D6", "Re": "#267DAB", "Os": "#266696", "Ir": "#175487", "Pt": "#D0D0E0", "Au": "#FFD123", "Hg": "#B8B8D0", "Tl": "#A6544D", "Pb": "#575961", "Bi": "#9E4FB5", "Po": "#AB5C00", "At": "#754F45", "Rn": "#428296", "Fr": "#420066", "Ra": "#007D00", "Ac": "#70ABFA", "Th": "#00BAFF", "Pa": "#00A1FF", "U": "#008FFF", "Np": "#0080FF", "Pu": "#006BFF", "Am": "#545CF2", "Cm": "#785CE3", "Bk": "#8A4FE3", "Cf": "#A136D4", "Es": "#B31FD4", "Fm": "#B31FBA", "Md": "#B30DA6", "No": "#BD0D87", "Lr": "#C70066", "Rf": "#CC0059", "Db": "#D1004F", "Sg": "#D90045", "Bh": "#E00038", "Hs": "#E6002E", "Mt": "#EB0026" },
@@ -49,12 +38,12 @@ function detect_format(str){
 }
 
 function unit(vec){
-    return math.divide(vec, math.norm(vec));
+    return Mimpl.divide(vec, Mimpl.norm(vec));
 }
 
 function cell2vec(a, b, c, alpha, beta, gamma){
     if (!a || !b || !c || !alpha || !beta || !gamma){
-        error("Error: invalid cell definition!");
+        root.error("Error: invalid cell definition!");
         return false;
     }
     alpha = alpha * Math.PI/180, beta = beta * Math.PI/180, gamma = gamma * Math.PI/180;
@@ -67,17 +56,17 @@ function cell2vec(a, b, c, alpha, beta, gamma){
     var ab_norm = [0, 0, 1]; // TODO
     var a_dir = [1, 0, 0]; // TODO
     var Z = unit(ab_norm);
-    var X = unit( math.subtract( a_dir, math.multiply( math.dot(a_dir, Z), Z ) ) );
-    var Y = math.cross(Z, X);
+    var X = unit( Mimpl.subtract( a_dir, Mimpl.multiply( Mimpl.dot(a_dir, Z), Z ) ) );
+    var Y = Mimpl.cross(Z, X);
     //console.log("X", X);
     //console.log("Y", Y);
     //console.log("Z", Z);
-    var va = math.multiply(a, [1, 0, 0]);
-    var vb = math.multiply(b, [math.cos(gamma), math.sin(gamma), 0]);
-    var cx = math.cos(beta);
-    var cy = math.divide( math.subtract( math.cos(alpha), math.multiply( math.cos(beta), math.cos(gamma) ) ), math.sin(gamma) );
-    var cz = math.sqrt( math.subtract( math.subtract(1, math.multiply(cx, cx)), math.multiply(cy, cy) ) );
-    var vc = math.multiply(c, [cx, cy, cz]);
+    var va = Mimpl.multiply(a, [1, 0, 0]);
+    var vb = Mimpl.multiply(b, [Mimpl.cos(gamma), Mimpl.sin(gamma), 0]);
+    var cx = Mimpl.cos(beta);
+    var cy = Mimpl.divide( Mimpl.subtract( Mimpl.cos(alpha), Mimpl.multiply( Mimpl.cos(beta), Mimpl.cos(gamma) ) ), Mimpl.sin(gamma) );
+    var cz = Mimpl.sqrt( Mimpl.subtract( Mimpl.subtract(1, Mimpl.multiply(cx, cx)), Mimpl.multiply(cy, cy) ) );
+    var vc = Mimpl.multiply(c, [cx, cy, cz]);
     //console.log("va", va);
     //console.log("vb", vb);
     //console.log("vc", vc);
@@ -88,7 +77,7 @@ function cell2vec(a, b, c, alpha, beta, gamma){
     var t = [X, Y, Z];
     //console.log("abc", abc);
     //console.log("t", t);
-    return math.multiply(abc, t);
+    return Mimpl.multiply(abc, t);
 }
 
 function jsobj2player(crystal){
@@ -105,7 +94,7 @@ function jsobj2player(crystal){
     for (i = 0; i < len; i++){
         scpositions.push([ crystal.atoms[i].x, crystal.atoms[i].y, crystal.atoms[i].z ]);
     }
-    var positions = math.multiply(scpositions, cell);
+    var positions = Mimpl.multiply(scpositions, cell);
     //console.log("positions", positions);
     var player_output = {"atoms": [], "cell": cell, "descr": descr, "overlayed": null};
     var color, radius;
@@ -120,8 +109,8 @@ function jsobj2player(crystal){
 }
 
 function jsobj2flatten(crystal){
-    if (crystal.symops) warning("Warning! Symmetry operation reading is not implemented, expect errors...");
-    
+    if (crystal.symops) root.warning("Warning! Reading of symmetry operations is not yet implemented, expect error now.");
+
     var cell;
     if (Object.keys(crystal.cell).length == 6){ // for CIF
         cell = cell2vec(crystal.cell.a, crystal.cell.b, crystal.cell.c, crystal.cell.alpha, crystal.cell.beta, crystal.cell.gamma);
@@ -163,7 +152,7 @@ function jsobj2flatten(crystal){
 }
 
 function cif2jsobj(str){
-    var structures = [], symops = [], lines = str.toString().split("\n"), cur_structure = {'cell': {}, 'atoms': []};
+    var structures = [], symops = [], atprop_seq = [], lines = str.toString().split("\n"), cur_structure = {'cell': {}, 'atoms': []};
     var loop_active = false, new_structure = false, symops_active = false;
     var current = "", s = [], ss = [], symmetry_seq = [];
     var cell_props = ['a', 'b', 'c', 'alpha', 'beta', 'gamma'];
@@ -279,7 +268,7 @@ function poscar2jsobj(str){
             if (!s.length) break;
             else if (s.length == 3) s.push('Xx' + types[atidx]);
             else if (s.length < 3){
-                error("Error: invalid atom definition!");
+                root.error("Error: invalid atom definition!");
                 return false;
             }
             for (j = 0; j < 4; j++){
@@ -291,38 +280,42 @@ function poscar2jsobj(str){
             atidx++;
         }
     }
-    cell = math.multiply(cell, factor);
+    cell = Mimpl.multiply(cell, factor);
     //console.log(cell);
 
     if (atoms.length) return {'cell': cell, 'atoms': atoms, 'types': types};
     else return false;
 }
 
+// API
 return {
     to_player: function(str){
         var structure, format = detect_format(str);
         switch (format){
             case 'CIF': structure = cif2jsobj(str); break;
             case 'POSCAR': structure = poscar2jsobj(str); break;
-            default: error("Error: file format cannot be recognized!");
+            default: root.error("Error: file format cannot be recognized!");
         }
         if (!structure) return false;
         return jsobj2player(structure);
     },
-
     to_flatten: function(str){
         var structure, format = detect_format(str);
         switch (format){
             case 'CIF': structure = cif2jsobj(str); break;
             case 'POSCAR': structure = poscar2jsobj(str); break;
-            default: error("Error: file format cannot be recognized!");
+            default: root.error("Error: file format cannot be recognized!");
         }
         if (!structure) return false;
         return jsobj2flatten(structure);
-    }
+    },
+    version: version
 }
 
-})();
+}
 
-// Server env
-if (typeof module !== 'undefined' && module.exports) module.exports = MatinfIO;
+if (typeof module !== 'undefined' && module.exports){
+    module.exports = MatinfIO;
+} else if (typeof require === 'function' && typeof require.specified === 'function'){
+    define(function(){ return MatinfIO });
+}
