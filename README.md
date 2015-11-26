@@ -10,3 +10,4 @@ Now to determine crystalline symmetry you need only a browser (without any plugi
 I thank Dr. Atsushi Togo-san for [Spglib](https://github.com/atztogo/spglib).
 
 See [SpglibJS online](http://blokhin.github.io/spglibjs).
+More info in the blog: https://blog.tilde.pro/handle-crystalline-symmetry-in-browser-using-pure-javascript-6bb01b99d170
