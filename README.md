@@ -1,5 +1,6 @@
 SpglibJS
 ======
+[![DOI](https://zenodo.org/badge/18811/blokhin/spglibjs.svg)](https://zenodo.org/badge/latestdoi/18811/blokhin/spglibjs)
 
 This is [Spglib](https://github.com/atztogo/spglib) library ported for the web with [LLVM](http://llvm.org) and [Emscripten](http://emscripten.org).
 Follow the tutorial at the Emscripten website to learn details about [transpilation](https://en.wikipedia.org/wiki/Source-to-source_compiler) of C source code to JavaScript.
@@ -9,3 +10,4 @@ Now to determine crystalline symmetry you need only a browser (without any plugi
 I thank Dr. Atsushi Togo-san for [Spglib](https://github.com/atztogo/spglib).
 
 See [SpglibJS online](http://blokhin.github.io/spglibjs).
+More info in the blog: https://blog.tilde.pro/handle-crystalline-symmetry-in-browser-using-pure-javascript-6bb01b99d170
